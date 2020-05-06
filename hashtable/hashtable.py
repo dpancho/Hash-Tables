@@ -60,8 +60,27 @@ class HashTable:
 
         Implement this.
         """
-        index = self.hash_index(key)
-        self.storage[index] = HashTableEntry(key, value)
+        # index = self.hash_index(key)
+        # self.storage[index] = HashTableEntry(key, value)
+        ##Above worked with collisions..... revised code below
+        index = self.hash_index(key)  # find the hash index
+        node = self.storage[index]
+        if node is None: 
+            self.storage[index] = HashTableEntry(key, value)
+        else:
+            if node.key != key:  # if we aren't overwriting
+                while node.next is not None:  # while we can keep going to the right
+                    if node.key != key:  # if it, again, isn't overwriting
+                        node = node.next  # keep going
+                    else:
+                        node.value = value  # assign the value
+                if node.key == key:  # we found it, we are overwriting
+                    node.value = value
+                else:
+                    # we are attaching it to the end
+                    node.next = HashTableEntry(key, value)
+            else:
+                node.value = value
 
     def delete(self, key):
         """
@@ -71,8 +90,26 @@ class HashTable:
 
         Implement this.
         """
-        index = self.hash_index(key)
-        self.storage[index] = None
+        # index = self.hash_index(key)
+        # self.storage[index] = None
+        ##Above worked with collisions..... revised code below
+        if self.get(key) is not None:  # if we have the item we want to delete
+            index = self.hash_index(key)
+            node = self.storage[index]
+            while node.next is not None:  # while we can continue to search
+                if node.key == key:  # we have found it, so we skip over it
+                    node.key = node.next.key
+                    node.value = node.next.value
+                    node.next = node.next.next
+                    return
+                else:
+                    node = node.next  # keep searching
+            if node.key == key:  # the last item
+                node.key = None
+                node.value = None
+                node.next = None
+        return None
+
 
     def get(self, key):
         """
@@ -82,11 +119,23 @@ class HashTable:
 
         Implement this.
         """
+        # index = self.hash_index(key)
+        # if self.storage[index] == None:
+        #     return None
+        # else:
+        #     return self.storage[index].value
+        ##Above worked with collisions..... revised code below
         index = self.hash_index(key)
-        if self.storage[index] == None:
-            return None
-        else:
-            return self.storage[index].value
+        node = self.storage[index]
+        if node is not None:  # while we have items to search through
+            while node.next is not None:  # while we are not at the end
+                if node.key == key:  # found it!
+                    return node.value  # so, return it!
+                else:
+                    node = node.next  # keep going
+            if node.key == key:
+                return node.value  # found it (first item)
+        return None
 
     def resize(self):
         """
