@@ -188,9 +188,10 @@ class TestHashTable(unittest.TestCase):
         return_value = ht.get("key-7")
         self.assertTrue(return_value == "val-7")
         return_value = ht.get("key-8")
-        # self.assertTrue(return_value == "val-8")
+        # print(return_value)
+        self.assertTrue(return_value == "val-8")
         return_value = ht.get("key-9")
-        # self.assertTrue(return_value == "val-9")
+        self.assertTrue(return_value == "val-9")
 
 
 if __name__ == '__main__':

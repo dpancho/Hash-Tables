@@ -147,10 +147,19 @@ class HashTable:
         old = self.storage
         self.capacity *= 2
         self.storage = [None] * self.capacity
+
         for entry in old:
             if entry==None: continue
             else:
-                self.put(entry.key, entry.value)
+                ##BOTH WORK
+                # node = entry
+                # while node is not None:
+                #     self.put(node.key, node.value)
+                #     node = node.next
+                ####BOTH WORK
+                while entry is not None:
+                    self.put(entry.key, entry.value)
+                    entry = entry.next
 
 if __name__ == "__main__":
     ht = HashTable(2)
