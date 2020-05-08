@@ -1,5 +1,11 @@
 def no_dups(s):
-    # Implement me.
+    str_arr = s.split(" ")
+    final_list = []
+    for string in str_arr:
+        if string not in final_list:
+            final_list.append(string)
+    # print(str_arr, '\n')
+    return " ".join(final_list)
 
 
 if __name__ == "__main__":
